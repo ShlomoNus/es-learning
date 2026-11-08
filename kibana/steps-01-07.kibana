@@ -1,0 +1,268 @@
+# Elasticsearch learning setup through Step 7.
+# Paste sections into Kibana Dev Tools: http://localhost:4009/app/dev_tools#/console
+# This file is intentionally cumulative. From Step 8 onward, create one new file per step.
+
+# ============================================================
+# STEP 1 — Elasticsearch / cluster basics
+# ============================================================
+GET /
+
+GET /_cluster/health
+
+# ============================================================
+# STEP 2 — Cluster, node, index, document
+# ============================================================
+GET /_nodes
+
+# Recreate the learning index so this file is repeatable.
+DELETE /movies?ignore_unavailable=true
+
+PUT /movies
+
+GET /_cat/indices?v
+
+PUT /movies/_doc/1
+{
+  "title": "Interstellar",
+  "year": 2014,
+  "genre": "sci-fi"
+}
+
+GET /movies/_doc/1
+
+# ============================================================
+# STEP 3 — CRUD
+# ============================================================
+PUT /movies/_doc/2
+{
+  "title": "The Matrix",
+  "year": 1999,
+  "genre": "sci-fi"
+}
+
+POST /movies/_doc
+{
+  "title": "The Godfather",
+  "year": 1972,
+  "genre": "crime"
+}
+
+POST /movies/_update/2
+{
+  "doc": {
+    "year": 2000
+  }
+}
+
+GET /movies/_doc/2
+
+# Example only: create-only semantics. Run after deleting id 99 if needed.
+DELETE /movies/_doc/99
+
+PUT /movies/_create/99
+{
+  "title": "Create-only example"
+}
+
+DELETE /movies/_doc/99
+
+# ============================================================
+# STEP 4 — _search, _source, size/from, _count
+# ============================================================
+GET /movies/_search
+{
+  "query": {
+    "match_all": {}
+  }
+}
+
+GET /movies/_search
+{
+  "_source": ["title", "year"],
+  "from": 0,
+  "size": 2,
+  "query": {
+    "match_all": {}
+  }
+}
+
+GET /movies/_search
+{
+  "query": {
+    "match": {
+      "title": "Matrix"
+    }
+  }
+}
+
+GET /movies/_count
+{
+  "query": {
+    "match_all": {}
+  }
+}
+
+# ============================================================
+# STEP 5 — Explicit mapping and field types
+# ============================================================
+# Recreate movies with the mapping we want to keep for Steps 5-7.
+DELETE /movies
+
+PUT /movies
+{
+  "mappings": {
+    "properties": {
+      "title": {
+        "type": "text",
+        "fields": {
+          "keyword": {
+            "type": "keyword"
+          }
+        }
+      },
+      "year": {
+        "type": "integer"
+      },
+      "genre": {
+        "type": "keyword"
+      },
+      "rating": {
+        "type": "float"
+      },
+      "isAvailable": {
+        "type": "boolean"
+      },
+      "releaseDate": {
+        "type": "date"
+      },
+      "actors": {
+        "type": "keyword"
+      }
+    }
+  }
+}
+
+GET /movies/_mapping
+
+PUT /movies/_doc/1
+{
+  "title": "The Matrix",
+  "year": 1999,
+  "genre": "sci-fi",
+  "rating": 8.7,
+  "isAvailable": true,
+  "releaseDate": "1999-03-31",
+  "actors": ["Keanu Reeves", "Carrie-Anne Moss"]
+}
+
+PUT /movies/_doc/2
+{
+  "title": "The Matrix Reloaded",
+  "year": 2003,
+  "genre": "sci-fi",
+  "rating": 7.2,
+  "isAvailable": true,
+  "releaseDate": "2003-05-15",
+  "actors": ["Keanu Reeves", "Carrie-Anne Moss"]
+}
+
+PUT /movies/_doc/3
+{
+  "title": "Reloaded",
+  "year": 2015,
+  "genre": "action",
+  "rating": 6.1,
+  "isAvailable": false,
+  "releaseDate": "2015-01-01",
+  "actors": ["Example Actor"]
+}
+
+# ============================================================
+# STEP 6 — Analysis, text, keyword, multi-fields
+# ============================================================
+POST /_analyze
+{
+  "analyzer": "standard",
+  "text": "The Matrix Reloaded"
+}
+
+POST /_analyze
+{
+  "analyzer": "standard",
+  "text": "HELLO, Elasticsearch Developers!"
+}
+
+GET /movies/_search
+{
+  "query": {
+    "match": {
+      "title": "MATRIX"
+    }
+  }
+}
+
+GET /movies/_search
+{
+  "query": {
+    "term": {
+      "title.keyword": "The Matrix"
+    }
+  }
+}
+
+# ============================================================
+# STEP 7 — match vs term
+# ============================================================
+# Full-text query: query input is analyzed.
+GET /movies/_search
+{
+  "query": {
+    "match": {
+      "title": "matrix reloaded"
+    }
+  }
+}
+
+# Require both analyzed query terms.
+GET /movies/_search
+{
+  "query": {
+    "match": {
+      "title": {
+        "query": "matrix reloaded",
+        "operator": "and"
+      }
+    }
+  }
+}
+
+# Exact value query on keyword field.
+GET /movies/_search
+{
+  "query": {
+    "term": {
+      "genre": "sci-fi"
+    }
+  }
+}
+
+# Exact value query on the keyword multi-field.
+GET /movies/_search
+{
+  "query": {
+    "term": {
+      "title.keyword": "The Matrix"
+    }
+  }
+}
+
+# Demonstrates a common mistake: this normally returns no hit because
+# title.keyword contains the exact term "The Matrix", not "matrix".
+GET /movies/_search
+{
+  "query": {
+    "term": {
+      "title.keyword": "matrix"
+    }
+  }
+}
