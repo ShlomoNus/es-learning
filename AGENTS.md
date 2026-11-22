@@ -7,7 +7,7 @@ Before making changes:
 1. Read this `AGENTS.md`.
 2. Read `README.md` for project commands and architecture.
 3. Read the latest file in `summaries/` to understand the current lesson boundary.
-4. Read `skills/elasticsearch-learning/SKILL.md` when adding or modifying course material.
+4. Read `.github/skills/elasticsearch-learning/SKILL.md` when adding or modifying course material.
 5. Read the relevant Kibana file before changing Elasticsearch data, mappings, or queries.
 
 ## 2. Stack and constraints
@@ -90,3 +90,8 @@ For Step N >= 8, a complete lesson change normally includes:
 
 ## 8. Do not over-engineer
 This is a learning repository. Prefer small, explicit examples over framework layers, dependency injection, generic repositories, or elaborate architecture unless a lesson specifically teaches those concepts.
+
+## 9. AI instruction file locations
+- Keep Copilot instructions, path-specific instructions, skills, and AI-orientation documents under `.github/`.
+- Keep this repository's `AGENTS.md` at the repository root. Frontend and backend projects may have their own `AGENTS.md` files at their project roots, outside `.github/`.
+- Follow the most specific applicable `AGENTS.md` for work inside a project; do not move `AGENTS.md` files into `.github/`.

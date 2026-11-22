@@ -69,21 +69,24 @@ es-learning/
 │   ├── step-01.md
 │   ├── ...
 │   └── step-07.md
-├── skills/
-│   └── elasticsearch-learning/
-│       └── SKILL.md
-├── docs/
-│   └── AI-ORIENTATION.md
 ├── .github/
+│   ├── AI-ORIENTATION.md
 │   ├── copilot-instructions.md
-│   └── instructions/
-│       └── course-files.instructions.md
+│   ├── instructions/
+│   │   └── course-files.instructions.md
+│   └── skills/
+│       └── elasticsearch-learning/
+│           └── SKILL.md
 ├── AGENTS.md
 └── docker-compose.yml
 ```
 
+AI-specific guidance (Copilot instructions, path-specific instructions, skills, and AI orientation) lives under `.github/`. Keep the repository `AGENTS.md` at the root; frontend and backend projects may have their own `AGENTS.md` files at their project roots.
+
 ### Kibana rule
 Steps 1-7 are consolidated in `kibana/steps-01-07.kibana` because they establish the current learning database state.
+
+Run the full file top-to-bottom to rebuild the course data through Step 7. To reset directly to the current Step 7 baseline, run the complete Step 5 section; it deletes and recreates only the `movies` index with its explicit mapping and learning documents.
 
 Starting with Step 8, every new lesson gets a separate Kibana file:
 
@@ -108,4 +111,4 @@ Completed through **Step 7 — `match` vs `term`**.
 Next: **Step 8 — `bool`: `must`, `should`, `filter`, `must_not`**.
 
 ## AI / Copilot
-Read `AGENTS.md` for the repository operating contract and `docs/AI-ORIENTATION.md` for how Copilot instructions, path-specific instructions, and the learning skill fit together.
+Read `AGENTS.md` for the repository operating contract and `.github/AI-ORIENTATION.md` for how Copilot instructions, path-specific instructions, and the learning skill fit together.

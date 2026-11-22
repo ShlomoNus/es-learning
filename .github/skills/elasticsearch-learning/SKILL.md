@@ -7,7 +7,7 @@ Use this skill whenever adding, revising, or validating a lesson in this reposit
 A lesson number and the Elasticsearch concept being taught.
 
 ## Workflow
-1. Read `/AGENTS.md`.
+1. Read the repository-root `AGENTS.md` and any more specific `AGENTS.md` that governs the files being changed.
 2. Read the immediately previous summary so the lesson builds on known concepts.
 3. Decide the minimum Elasticsearch state needed for the lesson.
 4. For Step 8+, create or update `kibana/step-NN.kibana` with runnable Kibana Dev Tools requests.

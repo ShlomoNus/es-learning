@@ -1,8 +1,10 @@
 # GitHub Copilot repository instructions
 
-Before planning, editing, generating code, or answering repository-specific implementation questions, read and follow `/AGENTS.md` as the primary operating contract for this repository.
+Before planning, editing, generating code, or answering repository-specific implementation questions, read and follow the repository-root `AGENTS.md` as the primary operating contract for this repository. Also follow any more specific `AGENTS.md` at the frontend or backend project root when working in that project.
 
-Then read the files that `AGENTS.md` identifies for the task, especially the latest lesson summary and `skills/elasticsearch-learning/SKILL.md` for course changes.
+Then read the files that `AGENTS.md` identifies for the task, especially the latest lesson summary and `.github/skills/elasticsearch-learning/SKILL.md` for course changes.
+
+Keep Copilot instructions, path-specific instructions, skills, and AI-orientation documents under `.github/`. Keep repository and project-specific `AGENTS.md` files outside `.github/`, at the root of the scope they govern.
 
 Important repository rules:
 - use `pnpm`, never npm or yarn;
