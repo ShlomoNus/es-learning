@@ -93,5 +93,5 @@ This is a learning repository. Prefer small, explicit examples over framework la
 
 ## 9. AI instruction file locations
 - Keep Copilot instructions, path-specific instructions, skills, and AI-orientation documents under `.github/`.
-- Keep this repository's `AGENTS.md` at the repository root. Frontend and backend projects may have their own `AGENTS.md` files at their project roots, outside `.github/`.
+- Keep this repository's `AGENTS.md` at the repository root. Frontend and backend projects may have their own `AGENTS.md` files at their respective project roots, outside `.github/`.
 - Follow the most specific applicable `AGENTS.md` for work inside a project; do not move `AGENTS.md` files into `.github/`.
